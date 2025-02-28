@@ -47,6 +47,11 @@ paper {
             required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
+
+        register("polarpaper") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
     }
 
 }

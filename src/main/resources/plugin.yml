@@ -1,5 +1,0 @@
-name: polarpaper-test
-version: '1.0.0-1.21.4'
-main: dev.thebjoredcraft.polarpapertest.PolarpaperTest
-api-version: '1.21'
-authors: [ TheBjoRedCraft ]
