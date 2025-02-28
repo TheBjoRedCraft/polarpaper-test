@@ -25,8 +25,15 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compileOnly ("dev.jorel:commandapi-bukkit-core:9.7.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:2.21.0")
+    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:2.21.0")
+
+
     implementation("live.minehub:polarpaper:1.21.4.5")
 }
 
