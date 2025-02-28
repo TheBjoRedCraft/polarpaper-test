@@ -1,6 +1,9 @@
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
     kotlin("jvm") version "2.1.20-RC"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("de.eldoria.plugin-yml.paper") version "0.7.1"
 }
 
 group = "dev.thebjoredcraft"
@@ -27,7 +30,22 @@ dependencies {
     implementation("live.minehub:polarpaper:1.21.4.5")
 }
 
+paper {
+    main = "dev.thebjoredcraft.polarpapertest.PolarpaperTest"
+    author = "TheBjoRedCraft"
+    apiVersion = "1.21.4"
+
+    serverDependencies {
+        register("CommandAPI") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+    }
+
+}
+
 val targetJavaVersion = 21
+
 kotlin {
     jvmToolchain(targetJavaVersion)
 }
@@ -36,11 +54,3 @@ tasks.build {
     dependsOn("shadowJar")
 }
 
-tasks.processResources {
-    val props = mapOf("version" to version)
-    inputs.properties(props)
-    filteringCharset = "UTF-8"
-    filesMatching("plugin.yml") {
-        expand(props)
-    }
-}
