@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "2.1.20-RC"
     id("com.gradleup.shadow") version "9.0.0-beta10"
     id("de.eldoria.plugin-yml.paper") version "0.7.1"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "dev.thebjoredcraft"
@@ -54,6 +55,12 @@ paper {
         }
     }
 
+}
+
+tasks {
+    runServer {
+        minecraftVersion("1.21.4")
+    }
 }
 
 val targetJavaVersion = 21
