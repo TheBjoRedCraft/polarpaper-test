@@ -2,23 +2,12 @@ package dev.thebjoredcraft.polarpapertest
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import dev.thebjoredcraft.polarpapertest.command.PolarPaperTestCommand
+import org.bukkit.plugin.java.JavaPlugin
 
-val plugin get() = PolarpaperTest.getInstance()
+val plugin get() = JavaPlugin.getPlugin(PolarpaperTest::class.java)
 
 class PolarpaperTest : SuspendingJavaPlugin() {
-
     override fun onEnable() {
         PolarPaperTestCommand("polarpapertest").register()
-        // Plugin startup logic
-    }
-
-    override fun onDisable() {
-        // Plugin shutdown logic
-    }
-
-    companion object {
-        fun getInstance(): PolarpaperTest {
-            return getPlugin(PolarpaperTest::class.java)
-        }
     }
 }

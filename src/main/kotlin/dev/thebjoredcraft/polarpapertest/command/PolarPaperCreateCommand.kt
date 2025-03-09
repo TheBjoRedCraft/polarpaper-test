@@ -5,31 +5,46 @@ import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.IntegerArgument
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
 import dev.thebjoredcraft.polarpapertest.plugin
-
 import live.minehub.polarpaper.Polar
 import net.kyori.adventure.text.Component
-
 import org.bukkit.WorldCreator
+import java.util.*
+import kotlin.system.measureTimeMillis
 
-import java.util.UUID
-
-class PolarPaperCreateCommand(commandName: String): CommandAPICommand(commandName) {
+class PolarPaperCreateCommand(commandName: String) : CommandAPICommand(commandName) {
     init {
-        withArguments(IntegerArgument("amount"))
+        withOptionalArguments(IntegerArgument("amount"))
 
         executesPlayer(PlayerCommandExecutor() { player, args ->
-            val amount: Int = args.getUnchecked<Int>("amount") ?: return@PlayerCommandExecutor
+            val amount = args.getOrDefaultUnchecked("amount", 1)
+            val times = mutableListOf<Long>()
 
             plugin.launch {
-                val start = System.currentTimeMillis()
-
-                repeat(amount) {
-                    Polar.createPolarWorld(WorldCreator.name(UUID.randomUUID().toString()))
+                val totalTime = measureTimeMillis {
+                    repeat(amount) {
+                        times.add(measureTimeMillis {
+                            Polar.createPolarWorld(
+                                WorldCreator.name(UUID.randomUUID().toString())
+                            )
+                        })
+                    }
                 }
 
-                val ending = System.currentTimeMillis()
+                val minTime = times.minOrNull()
+                val avgTime = times.average()
+                val maxTime = times.maxOrNull()
 
-                player.sendMessage(Component.text("Created $amount polar worlds in ${ending - start}ms"))
+                val builder = Component.text()
+                builder.append(Component.text("Created $amount worlds in $totalTime ms"))
+                builder.append(Component.newline())
+                builder.append(Component.newline())
+                builder.append(Component.text("Min: $minTime ms"))
+                builder.append(Component.newline())
+                builder.append(Component.text("Avg: $avgTime ms"))
+                builder.append(Component.newline())
+                builder.append(Component.text("Max: $maxTime ms"))
+
+                player.sendMessage(builder.build())
             }
         })
     }
