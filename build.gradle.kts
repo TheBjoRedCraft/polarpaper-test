@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.thebjoredcraft"
-version = "1.0.0-1.21.4"
+version = "1.0.1-1.21.4"
 
 repositories {
     mavenCentral()
