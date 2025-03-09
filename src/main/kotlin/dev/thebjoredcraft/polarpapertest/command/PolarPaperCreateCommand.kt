@@ -5,8 +5,6 @@ import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.IntegerArgument
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
 import dev.thebjoredcraft.polarpapertest.plugin
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import live.minehub.polarpaper.Polar
 import net.kyori.adventure.text.Component
 import org.bukkit.WorldCreator
@@ -22,33 +20,31 @@ class PolarPaperCreateCommand(commandName: String) : CommandAPICommand(commandNa
             val times = mutableListOf<Long>()
 
             plugin.launch {
-                withContext(Dispatchers.IO) {
-                    val totalTime = measureTimeMillis {
-                        repeat(amount) {
-                            times.add(measureTimeMillis {
-                                Polar.createPolarWorld(
-                                    WorldCreator.name(UUID.randomUUID().toString())
-                                )
-                            })
-                        }
+                val totalTime = measureTimeMillis {
+                    repeat(amount) {
+                        times.add(measureTimeMillis {
+                            Polar.createPolarWorld(
+                                WorldCreator.name(UUID.randomUUID().toString())
+                            )
+                        })
                     }
-
-                    val minTime = times.minOrNull()
-                    val avgTime = times.average()
-                    val maxTime = times.maxOrNull()
-
-                    val builder = Component.text()
-                    builder.append(Component.text("Created $amount worlds in $totalTime ms"))
-                    builder.append(Component.newline())
-                    builder.append(Component.newline())
-                    builder.append(Component.text("Min: $minTime ms"))
-                    builder.append(Component.newline())
-                    builder.append(Component.text("Avg: $avgTime ms"))
-                    builder.append(Component.newline())
-                    builder.append(Component.text("Max: $maxTime ms"))
-
-                    player.sendMessage(builder.build())
                 }
+
+                val minTime = times.minOrNull()
+                val avgTime = times.average()
+                val maxTime = times.maxOrNull()
+
+                val builder = Component.text()
+                builder.append(Component.text("Created $amount worlds in $totalTime ms"))
+                builder.append(Component.newline())
+                builder.append(Component.newline())
+                builder.append(Component.text("Min: $minTime ms"))
+                builder.append(Component.newline())
+                builder.append(Component.text("Avg: $avgTime ms"))
+                builder.append(Component.newline())
+                builder.append(Component.text("Max: $maxTime ms"))
+
+                player.sendMessage(builder.build())
             }
         })
     }
